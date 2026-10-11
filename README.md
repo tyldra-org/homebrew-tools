@@ -22,11 +22,11 @@ installing and after each upgrade:
 sudo chargectl install
 ```
 
-## Updating a formula
+The formula downloads chargectl's release archive and checks it against
+the SHA-256 in the formula. There is no chargectl release yet, so the tap
+holds no formula until the first one.
 
-Each chargectl release attaches a filled-in `chargectl.rb`. Copy it to
-`Formula/chargectl.rb` here, through a pull request. The formula downloads
-the release archive and checks it against the SHA-256 in the file.
+To change a formula, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
