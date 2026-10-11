@@ -5,7 +5,7 @@
 ## What this is
 
 The Homebrew tap for tyldra-org's tools: `brew install
-tyldra-org/tools/<formula>`. Today it holds `chargectl`, battery charge
+tyldra-org/tools/<formula>`. It holds `chargectl`, battery charge
 control for Apple Silicon MacBooks, whose source lives in
 `github.com/tyldra-org/chargectl`. Human contributors start at
 `CONTRIBUTING.md`, which agents read too.
