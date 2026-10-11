@@ -22,9 +22,6 @@ brew test tyldra-org/tools/chargectl
 brew untap tyldra-org/tools
 ```
 
-Installing the formula changes nothing on the battery until you run
-`sudo chargectl install`, which the checks never do.
-
 ## What CI runs
 
 Three jobs. `formulas` runs `brew test-bot`: style and audit on every

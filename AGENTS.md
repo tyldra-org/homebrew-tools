@@ -19,12 +19,6 @@ control for Apple Silicon MacBooks, whose source lives in
 - Keep each formula to what Homebrew's audit accepts: `brew style` and
   `brew audit --strict --online` must pass.
 
-## Never run
-
-- anything with `sudo`, including `sudo chargectl install`
-- `brew install` against the user's real Homebrew without asking; CI
-  installs on its own runner
-
 ## Where things live
 
 | Question | Owner |
