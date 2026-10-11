@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: A problem with chargectl itself
+    url: https://github.com/tyldra-org/chargectl/issues/new/choose
+    about: Issues here are for installing through Homebrew; chargectl's own behavior belongs in its repository.
+  - name: Report a security problem
+    url: https://github.com/tyldra-org/homebrew-tools/security/advisories/new
+    about: Report it privately, as SECURITY.md describes. Never in a public issue.
