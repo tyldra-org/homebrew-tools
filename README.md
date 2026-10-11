@@ -15,11 +15,6 @@ That adds this tap and installs the formula. After the first time,
 | --- | --- |
 | `chargectl` | Battery charge control for Apple Silicon MacBooks, from the terminal. [tyldra-org/chargectl](https://github.com/tyldra-org/chargectl) |
 
-Each formula downloads its tool's release archive and checks it against the
-SHA-256 in the formula. Any setup a tool needs after installing is printed
-by Homebrew and described in the tool's own README. There is no chargectl
-release yet, so the tap holds no formula until the first one.
-
 To change a formula, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
