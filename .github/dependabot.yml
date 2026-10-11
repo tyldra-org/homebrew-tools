@@ -1,0 +1,15 @@
+# Answers: how do the workflow actions stay current?
+# One grouped pull request a week, with a house-form subject: ci(deps):.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      actions:
+        patterns: ["*"]

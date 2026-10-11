@@ -1,0 +1,102 @@
+# Answers: does every formula pass Homebrew's checks, and do the workflows?
+# Three jobs:
+#   formulas   brew style and audit on every formula; on a pull request,
+#              also installs and tests each formula it changes
+#   workflows  actionlint
+#   check      passes only when both did; the main ruleset requires it
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to a pull request replaces the older run. Pushes to main all
+# run, so each one is checked.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+jobs:
+  # From the workflow `brew tap-new` writes, without bottles: the formulas
+  # install release binaries, so there is nothing to build. macOS on Apple
+  # Silicon only, the one platform the formulas support.
+  formulas:
+    name: formulas
+    runs-on: macos-26
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@e99025eb970cfa124b8284a35463d87426917478 # 2026.09.28.1
+        with:
+          token: ${{ github.token }}
+
+      - run: brew test-bot --only-cleanup-before
+
+      - run: brew test-bot --only-setup
+
+      # brew style and brew audit on every formula in the tap.
+      - run: brew test-bot --only-tap-syntax
+
+      # Installs, tests and audits each formula the pull request changes.
+      - if: github.event_name == 'pull_request'
+        run: brew test-bot --only-formulae --skip-dependents
+
+  workflows:
+    name: workflows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Fetch the release archive and check it against the checksum the
+      # release publishes. Dependabot cannot bump this; update VERSION and
+      # SHA256 together.
+      - name: Install actionlint
+        env:
+          VERSION: 1.7.12
+          SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          archive="actionlint_${VERSION}_linux_amd64.tar.gz"
+          curl -fsSL -o "$RUNNER_TEMP/$archive" \
+            "https://github.com/rhysd/actionlint/releases/download/v${VERSION}/$archive"
+          echo "$SHA256  $RUNNER_TEMP/$archive" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/actionlint"
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP/actionlint" actionlint
+          echo "$RUNNER_TEMP/actionlint" >> "$GITHUB_PATH"
+
+      - name: Workflows
+        run: actionlint
+
+  # A skipped job does not fail a required check, so this one looks at every
+  # result.
+  check:
+    name: check
+    if: always()
+    needs: [formulas, workflows]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every job passed
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "job results: $RESULTS"
+          for result in $RESULTS; do
+            [ "$result" = success ] || exit 1
+          done
