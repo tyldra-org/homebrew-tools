@@ -16,9 +16,9 @@ response time depends on their availability.
 ## What the tap can reach
 
 A formula tells Homebrew what to download and where to put it. Homebrew
-installs without administrator rights, so a formula cannot change the
-battery or anything outside Homebrew's own folders. chargectl's service
-needs a separate `sudo chargectl install`.
+installs without administrator rights, so a formula cannot change
+anything outside Homebrew's own folders. A tool that needs more asks for
+it separately, as its own README describes.
 
 Each formula names a release archive by URL and SHA-256. Homebrew refuses a
 download whose checksum differs, so a changed archive cannot install. The
