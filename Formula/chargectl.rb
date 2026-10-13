@@ -5,8 +5,8 @@
 class Chargectl < Formula
   desc "Battery charge control for Apple Silicon MacBooks"
   homepage "https://github.com/tyldra-org/chargectl"
-  url "https://github.com/tyldra-org/chargectl/releases/download/v0.2.1/chargectl-aarch64-apple-darwin.tar.gz"
-  sha256 "e7b847de51388845ec0f216d07804473e456084a47a808d82addcb4d88a63169"
+  url "https://github.com/tyldra-org/chargectl/releases/download/v0.2.2/chargectl-aarch64-apple-darwin.tar.gz"
+  sha256 "144c35afde730e50ffe1a61b8a74afee538171ce905dd6d87cc62cde2f8eedac"
   license "Apache-2.0"
 
   depends_on arch: :arm64
