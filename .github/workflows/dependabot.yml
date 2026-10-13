@@ -1,0 +1,28 @@
+# Answers: how do Dependabot's pull requests land?
+# Each one gets auto-merge as it opens or updates. GitHub rebases it onto
+# main once the ruleset's required `check` passes; a failing check leaves
+# it open for a person.
+name: dependabot
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  auto-merge:
+    name: auto-merge
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'tyldra-org/homebrew-tools'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Enable auto-merge
+        run: gh pr merge --auto --rebase "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

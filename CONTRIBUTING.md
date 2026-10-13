@@ -30,6 +30,10 @@ it changes. `workflows` runs actionlint. `check` passes only when both did,
 and the `main` ruleset in GitHub's settings requires it before a pull
 request merges. CodeQL scans the workflows alongside.
 
+Dependabot's weekly pull request for the workflow actions merges by
+itself: the `dependabot` workflow turns on auto-merge, and GitHub rebases
+it onto `main` once `check` passes.
+
 ## Commits and pull requests
 
 - Subjects use `type(scope): summary`, such as
