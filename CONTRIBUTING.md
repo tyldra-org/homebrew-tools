@@ -1,32 +1,33 @@
 # Contributing
 
-> How do I change a formula or this tap, and how does it land?
+> How do I change a cask, a formula or this tap, and how does it land?
 
-## Update a formula
+## Update a cask
 
-Each chargectl release attaches a filled-in `chargectl.rb`. Copy it to
-`Formula/chargectl.rb` unchanged, on a branch, and open a pull request.
-The release workflow wrote the URL and SHA-256, so do not edit them by hand.
+Each chargectl release opens a pull request here that writes
+`Casks/chargectl.rb`, and merges it once CI passes. The same file is
+attached to the release. To change the cask itself, edit `scripts/cask.sh`
+in [tyldra-org/chargectl](https://github.com/tyldra-org/chargectl); the
+next release brings the change here. Never edit the URL or SHA-256 by hand.
 
 ## Check it locally
 
 CI runs these on every pull request. To run them yourself, tap your clone
-and check the formula from there:
+and check the cask from there:
 
 ```sh
 brew tap tyldra-org/tools "$PWD"
 brew style tyldra-org/tools
 brew audit --strict --online --tap tyldra-org/tools
-brew install tyldra-org/tools/chargectl
-brew test tyldra-org/tools/chargectl
+brew install --cask tyldra-org/tools/chargectl
 brew untap tyldra-org/tools
 ```
 
 ## What CI runs
 
 Three jobs. `formulas` runs `brew test-bot`: style and audit on every
-formula, and on a pull request an install, test and audit of each formula
-it changes. `workflows` runs actionlint. `check` passes only when both did,
+cask and formula, and on a pull request an install, test and audit of
+each formula it changes. `workflows` runs actionlint. `check` passes only when both did,
 and the `main` ruleset in GitHub's settings requires it before a pull
 request merges. CodeQL scans the workflows alongside.
 
@@ -38,7 +39,7 @@ it onto `main` once `check` passes.
 
 - Subjects use `type(scope): summary`, such as
   `feat(chargectl): update to 0.2.0`. Lowercase, imperative, no trailing
-  period, at most 80 characters. The scope is the formula's name; leave it
+  period, at most 80 characters. The scope is the cask's or formula's name; leave it
   out for changes to the tap itself.
 - Types: build, chore, ci, docs, feat, fix, refactor, revert, style, test.
 - One reason to change per commit.
