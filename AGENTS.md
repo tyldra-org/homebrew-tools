@@ -5,18 +5,18 @@
 ## What this is
 
 The Homebrew tap for tyldra-org's tools: `brew install
-tyldra-org/tools/<formula>`. It holds `chargectl`, battery charge
-control for Apple Silicon MacBooks, whose source lives in
+tyldra-org/tools/<name>`. It holds the `chargectl` cask, a menu bar app
+for battery charge limits on Apple Silicon MacBooks, whose source lives in
 `github.com/tyldra-org/chargectl`. Human contributors start at
 `CONTRIBUTING.md`, which agents read too.
 
 ## Rules
 
-- A formula's URL, version and SHA-256 come from the tool's release
-  workflow, which attaches a filled-in formula to each release. Copy that
-  file; never type or guess a checksum.
-- Formulas install prebuilt release binaries and build no bottles.
-- Keep each formula to what Homebrew's audit accepts: `brew style` and
+- A cask's or formula's URL, version and SHA-256 come from the tool's
+  release workflow, which opens the pull request that updates it and
+  attaches the same file to the release. Never type or guess a checksum.
+- Casks and formulas install prebuilt release archives and build no bottles.
+- Keep each one to what Homebrew's audit accepts: `brew style` and
   `brew audit --strict --online` must pass.
 
 ## Where things live
