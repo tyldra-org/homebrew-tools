@@ -29,11 +29,10 @@ repository, which also attests the archive: `gh attestation verify
 ## Repository automation
 
 CI runs with a read-only token and no secrets. Actions are pinned to full
-commit SHAs, and Dependabot proposes updates weekly. CodeQL scans the
-workflows on every pull request and weekly.
+commit SHAs, and Dependabot proposes updates weekly.
 
-The repository's rules live in its GitHub settings. Contributors reach
-`main` through pull requests that pass CI; admins may push directly, and CI
-still runs on those pushes. Nobody may force-push or delete `main`. Secret
-scanning runs with push protection. CI waits for a maintainer's approval on
-every outside contributor's pull request.
+The repository's rules live in its GitHub settings. Issues are off, and
+only collaborators, the release automation and Dependabot can open pull
+requests. Every change, an admin's included, reaches `main` through a pull
+request that passes CI. Nobody may force-push or delete `main`. Secret
+scanning runs with push protection.
