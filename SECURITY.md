@@ -31,8 +31,9 @@ repository, which also attests the archive: `gh attestation verify
 CI runs with a read-only token and no secrets. Actions are pinned to full
 commit SHAs, and Dependabot proposes updates weekly.
 
-The repository's rules live in its GitHub settings. Issues are off, and
-only collaborators, the release automation and Dependabot can open pull
-requests. Every change, an admin's included, reaches `main` through a pull
+The repository's rules live in its GitHub settings. Only collaborators,
+the release automation and Dependabot can open issues, pull requests or
+comments; everyone else can read. Every change, an admin's included,
+reaches `main` through a pull
 request that passes CI. Nobody may force-push or delete `main`. Secret
 scanning runs with push protection.
