@@ -15,7 +15,9 @@ That adds this tap and installs the cask. After the first time,
 | --- | --- |
 | `chargectl` | Battery charge limits for Apple Silicon MacBooks, from the menu bar. [tyldra-org/chargectl](https://github.com/tyldra-org/chargectl) |
 
-To change a cask, see [CONTRIBUTING.md](CONTRIBUTING.md).
+This repository does not accept issues or pull requests; see
+[CONTRIBUTING.md](CONTRIBUTING.md). Report security problems privately as
+[SECURITY.md](SECURITY.md) describes.
 
 ## License
 

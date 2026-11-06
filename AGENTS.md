@@ -7,8 +7,8 @@
 The Homebrew tap for tyldra-org's tools: `brew install
 tyldra-org/tools/<name>`. It holds the `chargectl` cask, a menu bar app
 for battery charge limits on Apple Silicon MacBooks, whose source lives in
-`github.com/tyldra-org/chargectl`. Human contributors start at
-`CONTRIBUTING.md`, which agents read too.
+`github.com/tyldra-org/chargectl`. The tap accepts no outside issues or
+pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
 
 ## Rules
 
@@ -38,3 +38,10 @@ changing GitHub settings each need the user's request. Documents are plain
 and specific: sentence-case headings, no em dashes, no badges or emoji, no
 claims beyond what was verified. Grade claims `verified`, `tested` or
 `untested`.
+
+## Skills
+
+Before acting, load from the global `~/.agents/skills/`: `git` for any Git
+command, `github` for pull requests, CI and releases, `code-review` to review
+a change, `open-source-repo` for public-repository hygiene, and
+`engineering-judgment` for script or formula changes.
