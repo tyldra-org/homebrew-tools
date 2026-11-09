@@ -27,6 +27,7 @@ pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
 | How does a change land? | `CONTRIBUTING.md` |
 | How are security problems reported? | `SECURITY.md` |
 | What does CI check? | `.github/workflows/ci.yml` |
+| What happens when CI fails for an outside reason? | `.github/workflows/ci-retry.yml` re-runs the failed jobs once |
 | What must pass before a pull request merges? | the `main` ruleset in GitHub settings: CI's `check` job |
 | Which GitHub settings and rules apply? | GitHub, under Settings; the repository keeps no copy |
 

@@ -26,8 +26,11 @@ brew untap tyldra-org/tools
 
 CI has three jobs: `formulas` runs `brew test-bot` (style and audit on
 every cask and formula, and an install and test of each formula a pull
-request changes), `workflows` runs actionlint, and `check` passes only
-when both did. The `main` ruleset requires `check`.
+request changes), `workflows` runs actionlint when `.github` changes, and
+`check` passes only when both did. The `main` ruleset requires `check`.
+When a `ci` run fails, `ci-retry` waits five minutes and re-runs its failed
+jobs once, so a download that times out does not block a release. A second
+failure stays red.
 
 Every change lands by pull request, squash-merged with the pull request
 title as the commit subject. Dependabot's weekly pull request for the

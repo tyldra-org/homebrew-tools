@@ -2,7 +2,8 @@
 # Three jobs:
 #   formulas   brew style and audit on every formula; on a pull request,
 #              also installs and tests each formula it changes
-#   workflows  actionlint
+#   workflows  actionlint, when a pull request or push changes .github
+#              (cask updates never do), and on manual runs
 #   check      passes only when both did; the main ruleset requires it
 name: ci
 
@@ -65,7 +66,30 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # A pull request checks out its merge commit; its first parent is
+          # main, so the diff is exactly what the pull request changes.
+          fetch-depth: 2
           persist-credentials: false
+
+      # Cask updates never touch the workflows, so they skip actionlint and
+      # cannot fail on it. An unknown diff lints.
+      - name: Did a workflow change?
+        id: changed
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          base=""
+          case "$EVENT" in
+            pull_request) base=$(git rev-parse HEAD^1) ;;
+            push) if git fetch --no-tags --depth=1 origin "$BEFORE"; then base=$BEFORE; fi ;;
+          esac
+          if [ -n "$base" ] && git diff --quiet "$base" HEAD -- .github; then
+            echo "No workflow changed, so actionlint is skipped."
+            echo "lint=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "lint=true" >> "$GITHUB_OUTPUT"
+          fi
 
       # actionlint comes from the Actions cache, so most runs download
       # nothing. On a miss it is built from the Go module proxy, which
@@ -73,6 +97,7 @@ jobs:
       # Downloading GitHub's release archive instead returned 504 to the
       # runners for half an hour on 2026-11-09 and failed this job three times.
       - name: Restore actionlint
+        if: steps.changed.outputs.lint == 'true'
         id: actionlint
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -80,7 +105,7 @@ jobs:
           key: ${{ runner.os }}-actionlint-${{ env.ACTIONLINT_VERSION }}
 
       - name: Install actionlint
-        if: steps.actionlint.outputs.cache-hit != 'true'
+        if: steps.changed.outputs.lint == 'true' && steps.actionlint.outputs.cache-hit != 'true'
         run: |
           for attempt in 1 2 3; do
             go install "github.com/rhysd/actionlint/cmd/actionlint@$ACTIONLINT_VERSION" && break
@@ -89,6 +114,7 @@ jobs:
           done
 
       - name: Workflows
+        if: steps.changed.outputs.lint == 'true'
         run: ~/go/bin/actionlint
 
   # A skipped job does not fail a required check, so this one looks at every
