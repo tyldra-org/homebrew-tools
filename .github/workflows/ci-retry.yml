@@ -6,7 +6,8 @@
 name: ci-retry
 
 on:
-  workflow_run:
+  # It checks out no code and only reruns failed jobs, so no pull request can change what it runs.
+  workflow_run: # zizmor: ignore[dangerous-triggers]
     workflows: [ci]
     types: [completed]
 
