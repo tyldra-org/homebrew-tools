@@ -1,0 +1,29 @@
+# Answers: what happens when ci fails for a reason outside the tap, such as a
+# download that times out? Its failed jobs run once more, by themselves.
+# One retry only: a second failure stays red, so a real problem still shows.
+# It waits five minutes first, so a short outage has time to clear. It never
+# checks out code, so a pull request cannot change what it runs.
+name: ci-retry
+
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+
+permissions:
+  actions: write
+
+jobs:
+  retry:
+    name: retry
+    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Re-run the failed jobs once
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          sleep 300
+          gh run rerun "$RUN_ID" --failed --repo "$GITHUB_REPOSITORY"
