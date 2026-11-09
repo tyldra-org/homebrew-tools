@@ -2,7 +2,7 @@
 # Three jobs:
 #   formulas   brew style and audit on every formula; on a pull request,
 #              also installs and tests each formula it changes
-#   workflows  actionlint, when a pull request or push changes .github
+#   workflows  actionlint and zizmor, when a pull request or push changes .github
 #              (cask updates never do), and on manual runs
 #   check      passes only when both did; the main ruleset requires it
 name: ci
@@ -81,8 +81,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
-      # Dependabot cannot bump this; update it by hand.
+      # Dependabot cannot bump these two; update them by hand.
       ACTIONLINT_VERSION: v1.7.12
+      ZIZMOR_VERSION: "1.32.0"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -143,9 +144,18 @@ jobs:
           path: ~/go/bin/actionlint
           key: ${{ runner.os }}-actionlint-${{ env.ACTIONLINT_VERSION }}
 
+      # zizmor from PyPI through pipx, which GitHub's Linux images include; pipx
+      # puts it in a folder already on the runner's PATH.
+      - name: Install zizmor
+        if: steps.changed.outputs.lint == 'true'
+        run: pipx install "zizmor==$ZIZMOR_VERSION"
+
+      # actionlint for syntax and expressions, zizmor for injection, permissions and pins.
       - name: Workflows
         if: steps.changed.outputs.lint == 'true'
-        run: ~/go/bin/actionlint
+        run: |
+          ~/go/bin/actionlint
+          zizmor --offline --min-severity low .github/workflows
 
   # A skipped job does not fail a required check, so this one looks at every
   # result.
