@@ -37,9 +37,9 @@ cask "chargectl" do
   zap trash: [
     "/Library/Application Support/Chargectl",
     "/Library/LaunchDaemons/com.tyldra.chargectl.daemon.plist",
-    "/Library/PrivilegedHelperTools/com.tyldra.chargectl.daemon",
     "/Library/Logs/DiagnosticReports/Chargectl Service*",
     "/Library/Logs/DiagnosticReports/Retired/Chargectl Service*",
+    "/Library/PrivilegedHelperTools/com.tyldra.chargectl.daemon",
     "/private/etc/sudoers.d/chargectl",
     "~/Library/Application Support/com.tyldra.chargectl",
     "~/Library/Caches/com.tyldra.chargectl",
