@@ -144,7 +144,8 @@ jobs:
           path: ~/go/bin/actionlint
           key: ${{ runner.os }}-actionlint-${{ env.ACTIONLINT_VERSION }}
 
-      # zizmor from PyPI through pipx, which GitHub's Linux images include.
+      # zizmor from PyPI through pipx, which GitHub's Linux images include; pipx
+      # puts it in a folder already on the runner's PATH.
       - name: Install zizmor
         if: steps.changed.outputs.lint == 'true'
         run: pipx install "zizmor==$ZIZMOR_VERSION"
@@ -154,7 +155,7 @@ jobs:
         if: steps.changed.outputs.lint == 'true'
         run: |
           ~/go/bin/actionlint
-          ~/.local/bin/zizmor --offline --min-severity low .github/workflows
+          zizmor --offline --min-severity low .github/workflows
 
   # A skipped job does not fail a required check, so this one looks at every
   # result.
