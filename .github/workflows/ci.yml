@@ -41,6 +41,7 @@ jobs:
       pull-requests: read
     steps:
       - name: Set up Homebrew
+        id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@d482da0e602890d3160aade42e72c8556103bf04 # 2026.10.26.1
         with:
           token: ${{ github.token }}
@@ -49,8 +50,27 @@ jobs:
       # tidy and run brew doctor and brew config, about 50 of the job's 100
       # seconds, and change nothing the checks below see.
 
+      # brew style installs RuboCop and its gems on first use; it took 44 of
+      # test-bot's 50 seconds. The gems come from the Actions cache, keyed on
+      # Homebrew's Gemfile.lock, as Homebrew's own tap-syntax CI does. Only main
+      # saves them; pull requests restore main's.
+      - name: Restore Homebrew's gems
+        id: gems
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ runner.os }}-rubygems-
+
       # brew style and brew audit on every formula in the tap.
       - run: brew test-bot --only-tap-syntax
+
+      - name: Save Homebrew's gems
+        if: github.ref == 'refs/heads/main' && steps.gems.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
 
       # Installs, tests and audits each formula the pull request changes.
       - if: github.event_name == 'pull_request'
@@ -84,6 +104,8 @@ jobs:
             pull_request) base=$(git rev-parse HEAD^1) ;;
             push) if git fetch --no-tags --depth=1 origin "$BEFORE"; then base=$BEFORE; fi ;;
           esac
+          # Only a full commit ID counts; anything else lints.
+          if [[ ! $base =~ ^[0-9a-f]{40}$ ]]; then base=""; fi
           if [ -n "$base" ] && git diff --quiet "$base" HEAD -- .github; then
             echo "No workflow changed, so actionlint is skipped."
             echo "lint=false" >> "$GITHUB_OUTPUT"
@@ -94,12 +116,13 @@ jobs:
       # actionlint comes from the Actions cache, so most runs download
       # nothing. On a miss it is built from the Go module proxy, which
       # go install checks against the Go checksum database, with retries.
+      # Only main saves it; pull requests restore it.
       # Downloading GitHub's release archive instead returned 504 to the
       # runners for half an hour on 2026-11-09 and failed this job three times.
       - name: Restore actionlint
         if: steps.changed.outputs.lint == 'true'
         id: actionlint
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/go/bin/actionlint
           key: ${{ runner.os }}-actionlint-${{ env.ACTIONLINT_VERSION }}
@@ -112,6 +135,13 @@ jobs:
             [ "$attempt" -lt 3 ] || exit 1
             sleep $((attempt * 15))
           done
+
+      - name: Save actionlint
+        if: github.ref == 'refs/heads/main' && steps.changed.outputs.lint == 'true' && steps.actionlint.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/go/bin/actionlint
+          key: ${{ runner.os }}-actionlint-${{ env.ACTIONLINT_VERSION }}
 
       - name: Workflows
         if: steps.changed.outputs.lint == 'true'
