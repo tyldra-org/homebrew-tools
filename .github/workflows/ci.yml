@@ -27,7 +27,7 @@ defaults:
     shell: bash -xeuo pipefail {0}
 
 jobs:
-  # From the workflow `brew tap-new` writes, without bottles: the formulas
+  # From the workflow `brew tap-new` writes, without bottles or setup: the formulas
   # install release binaries, so there is nothing to build. macOS on Apple
   # Silicon only, the one platform the formulas support.
   formulas:
@@ -45,9 +45,9 @@ jobs:
         with:
           token: ${{ github.token }}
 
-      - run: brew test-bot --only-cleanup-before
-
-      - run: brew test-bot --only-setup
+      # Without test-bot's cleanup and setup steps: on a fresh runner they only
+      # tidy and run brew doctor and brew config, about 50 of the job's 100
+      # seconds, and change nothing the checks below see.
 
       # brew style and brew audit on every formula in the tap.
       - run: brew test-bot --only-tap-syntax
