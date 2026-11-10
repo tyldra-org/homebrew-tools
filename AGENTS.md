@@ -17,7 +17,11 @@ pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
   attaches the same file to the release. Never type or guess a checksum.
 - Casks and formulas install prebuilt release archives and build no bottles.
 - Keep each one to what Homebrew's audit accepts: `brew style` and
-  `brew audit --strict --online` must pass.
+  `brew audit --strict --online` must pass. CI runs both on every cask and
+  formula (`brew test-bot --only-tap-syntax`). Do not check a file with
+  `brew style Casks/<name>.rb`: outside a tapped tap it applies rules taps
+  do not use. The chargectl cask is checked before release by
+  `./scripts/check.sh cask` in the chargectl repository.
 
 ## Where things live
 
@@ -44,5 +48,6 @@ claims beyond what was verified. Grade claims `verified`, `tested` or
 
 Before acting, load from the global `~/.agents/skills/`: `git` for any Git
 command, `github` for pull requests, CI and releases, `code-review` to review
-a change, `open-source-repo` for public-repository hygiene, and
-`engineering-judgment` for script or formula changes.
+a change, `open-source-repo` for public-repository hygiene and CI workflows,
+`engineering-judgment` for script or formula changes, `agents-md` for this
+file, and `unslop` for anything people read.
