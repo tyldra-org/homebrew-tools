@@ -38,8 +38,10 @@ pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
 ## Commits and writing
 
 Subjects use `type(scope): summary` as `CONTRIBUTING.md` describes, with
-no AI attribution. Pushing, rewriting history, deleting branches and
-changing GitHub settings each need the user's request. Documents are plain
+no AI attribution. Commits, pushes of a work branch, and pull requests
+merged through `check` need the user's request, in the conversation or in
+standing instructions such as an automatic mode. Rewriting history, deleting
+branches and changing GitHub settings need a request in the conversation. Documents are plain
 and specific: sentence-case headings, no em dashes, no badges or emoji, no
 claims beyond what was verified. Grade claims `verified`, `tested` or
 `untested`.
