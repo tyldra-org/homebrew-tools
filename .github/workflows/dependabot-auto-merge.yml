@@ -7,7 +7,7 @@
 # A schedule, unlike pull request or workflow_run triggers, never runs on
 # anyone else's pull request, so the release automation's cask updates start
 # no run here. The tap has only GitHub Actions updates, which all merge, as
-# they do in tyldra-org/chargectl.
+# they do in tyldra/chargectl.
 name: dependabot-auto-merge
 
 on:
@@ -25,7 +25,7 @@ concurrency:
 jobs:
   merge:
     name: merge
-    if: github.repository == 'tyldra-org/homebrew-tools'
+    if: github.repository == 'tyldra/homebrew-tools'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

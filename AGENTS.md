@@ -4,10 +4,10 @@
 
 ## What this is
 
-The Homebrew tap for tyldra-org's tools: `brew install
-tyldra-org/tools/<name>`. It holds the `chargectl` cask, a menu bar app
+The Homebrew tap for tyldra's tools: `brew install
+tyldra/tools/<name>`. It holds the `chargectl` cask, a menu bar app
 for battery charge limits on Apple Silicon MacBooks, whose source lives in
-`github.com/tyldra-org/chargectl`. The tap accepts no outside issues or
+`github.com/tyldra/chargectl`. The tap accepts no outside issues or
 pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
 
 ## Rules

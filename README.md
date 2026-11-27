@@ -1,9 +1,9 @@
-# tyldra-org Homebrew tools
+# tyldra Homebrew tools
 
-> How do I install tyldra-org's tools with Homebrew?
+> How do I install tyldra's tools with Homebrew?
 
 ```sh
-brew install --cask tyldra-org/tools/chargectl
+brew install --cask tyldra/tools/chargectl
 ```
 
 That adds this tap and installs the cask. After the first time,
@@ -13,7 +13,7 @@ That adds this tap and installs the cask. After the first time,
 
 | Cask | What it is |
 | --- | --- |
-| `chargectl` | Battery charge limits for Apple Silicon MacBooks, from the menu bar. [tyldra-org/chargectl](https://github.com/tyldra-org/chargectl) |
+| `chargectl` | Battery charge limits for Apple Silicon MacBooks, from the menu bar. [tyldra/chargectl](https://github.com/tyldra/chargectl) |
 
 This repository does not accept issues or pull requests; see
 [CONTRIBUTING.md](CONTRIBUTING.md). Report security problems privately as
