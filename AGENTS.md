@@ -38,8 +38,10 @@ pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
 
 ## Commits and writing
 
-Subjects use `type(scope): summary` as `CONTRIBUTING.md` describes, with
-no AI attribution. Commits, pushes of a work branch, and pull requests
+Subjects use `type(scope): summary` as `CONTRIBUTING.md` describes. No AI
+attribution in commits, pull requests or issues: no `Co-authored-by` or
+`Assisted-by` naming Claude, Cursor, Copilot or any model, and no
+"Generated with" lines; strip any a tool adds. Commits, pushes of a work branch, and pull requests
 merged through `check` need the user's request, in the conversation or in
 standing instructions such as an automatic mode. Rewriting history, deleting
 branches and changing GitHub settings need a request in the conversation. Documents are plain
