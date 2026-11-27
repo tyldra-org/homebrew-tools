@@ -1,0 +1,53 @@
+# Answers: how do Dependabot's pull requests land?
+# This workflow runs hourly (and by hand), looks only at open pull requests
+# Dependabot opened in this repository, and squash-merges each one whose
+# required checks (the ruleset's `check`) all passed on its current head.
+# A failing check leaves the pull request open for a person.
+#
+# A schedule, unlike pull request or workflow_run triggers, never runs on
+# anyone else's pull request, so the release automation's cask updates start
+# no run here. The tap has only GitHub Actions updates, which all merge, as
+# they do in tyldra-org/chargectl.
+name: dependabot-auto-merge
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependabot-auto-merge
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    name: merge
+    if: github.repository == 'tyldra-org/homebrew-tools'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+    steps:
+      - name: Merge Dependabot pull requests whose required checks passed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh pr list --base main --author "app/dependabot" --state open \
+            --json number,headRefOid --jq '.[] | "\(.number) \(.headRefOid)"' |
+            while read -r number sha; do
+              ready=$(gh pr checks "$number" --required --json bucket \
+                --jq 'length > 0 and all(.[]; .bucket == "pass" or .bucket == "skipping")' || echo false)
+              if [ "$ready" != "true" ]; then
+                echo "#$number: required checks are not all green."
+                continue
+              fi
+              gh pr merge "$number" --squash --delete-branch --match-head-commit "$sha" ||
+                echo "::warning::#$number did not merge"
+            done

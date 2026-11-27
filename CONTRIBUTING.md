@@ -34,7 +34,8 @@ failure stays red.
 
 Every change lands by pull request, squash-merged with the pull request
 title as the commit subject. Dependabot's weekly pull request for the
-workflow actions merges by itself once `check` passes. Subjects use
+workflow actions is merged by `dependabot-auto-merge`, which runs hourly,
+once `check` passes. Subjects use
 `type(scope): summary`, such as `feat(chargectl): update to 0.2.0`: lowercase,
 imperative, no trailing period, the scope being the cask's or formula's
 name, left out for changes to the tap itself.
