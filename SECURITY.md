@@ -5,10 +5,10 @@
 ## Report a problem privately
 
 Use GitHub's private reporting:
-<https://github.com/tyldra-org/homebrew-tools/security/advisories/new>.
+<https://github.com/tyldra/homebrew-tools/security/advisories/new>.
 If that page is unavailable, email yogeshprasad098@gmail.com instead. Do
 not open a public issue. A problem in chargectl itself belongs in
-[chargectl's security policy](https://github.com/tyldra-org/chargectl/security/policy).
+[chargectl's security policy](https://github.com/tyldra/chargectl/security/policy).
 
 Only the latest `main` is supported. The project has one maintainer;
 response time depends on their availability.
@@ -24,7 +24,7 @@ Each formula names a release archive by URL and SHA-256. Homebrew refuses a
 download whose checksum differs, so a changed archive cannot install. The
 checksum in the formula comes from the release workflow of the tool's own
 repository, which also attests the archive: `gh attestation verify
-<archive> --repo tyldra-org/chargectl` shows where it was built.
+<archive> --repo tyldra/chargectl` shows where it was built.
 
 ## Repository automation
 

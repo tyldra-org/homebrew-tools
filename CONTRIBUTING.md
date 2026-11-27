@@ -11,17 +11,17 @@ privately as described in [SECURITY.md](SECURITY.md).
 Each chargectl release opens a pull request here that writes
 `Casks/chargectl.rb` and merges it once CI passes. To change the cask
 itself, edit `scripts/cask.sh` in
-[tyldra-org/chargectl](https://github.com/tyldra-org/chargectl); the next
+[tyldra/chargectl](https://github.com/tyldra/chargectl); the next
 release brings the change here. Never edit the URL or SHA-256 by hand.
 
 Check a change locally before opening its pull request:
 
 ```sh
-brew tap tyldra-org/tools "$PWD"
-brew style tyldra-org/tools
-brew audit --strict --online --tap tyldra-org/tools
-brew install --cask tyldra-org/tools/chargectl
-brew untap tyldra-org/tools
+brew tap tyldra/tools "$PWD"
+brew style tyldra/tools
+brew audit --strict --online --tap tyldra/tools
+brew install --cask tyldra/tools/chargectl
+brew untap tyldra/tools
 ```
 
 CI has three jobs: `formulas` runs `brew test-bot` (style and audit on
