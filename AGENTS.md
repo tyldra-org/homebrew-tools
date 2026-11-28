@@ -6,8 +6,9 @@
 
 The Homebrew tap for tyldra's tools: `brew install
 tyldra/tools/<name>`. It holds the `chargectl` cask, a menu bar app
-for battery charge limits on Apple Silicon MacBooks, whose source lives in
-`github.com/tyldra/chargectl`. The tap accepts no outside issues or
+for battery charge limits on Apple Silicon MacBooks, and the `keynook`
+formula, a command-line API key manager backed by the login Keychain. Their
+sources live in `github.com/tyldra/chargectl` and `github.com/tyldra/keynook`. The tap accepts no outside issues or
 pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
 
 ## Rules
@@ -20,8 +21,9 @@ pull requests; `CONTRIBUTING.md` says so and holds the maintainer workflow.
   `brew audit --strict --online` must pass. CI runs both on every cask and
   formula (`brew test-bot --only-tap-syntax`). Do not check a file with
   `brew style Casks/<name>.rb`: outside a tapped tap it applies rules taps
-  do not use. The chargectl cask is checked before release by
-  `./scripts/check.sh cask` in the chargectl repository.
+  do not use. Each is checked before release in its own repository:
+  `./scripts/check.sh cask` in chargectl, `./scripts/check.sh formula` in
+  keynook.
 
 ## Where things live
 
