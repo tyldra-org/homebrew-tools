@@ -38,6 +38,6 @@ class Keynook < Formula
     assert_equal version.to_s, shell_output("#{bin}/keynook --version").strip
     ENV["KEYNOOK_CONFIG_DIR"] = testpath/"config"
     ENV["KEYNOOK_SERVICE_PREFIX"] = "keynook-brew-test"
-    assert_match "No keys yet", shell_output("#{bin}/keynook list")
+    assert_match "No keys yet", shell_output("#{bin}/keynook list 2>&1")
   end
 end
