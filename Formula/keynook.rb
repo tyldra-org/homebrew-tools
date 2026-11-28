@@ -3,8 +3,8 @@
 class Keynook < Formula
   desc "API key manager for the Mac terminal, backed by the login Keychain"
   homepage "https://github.com/tyldra/keynook"
-  url "https://github.com/tyldra/keynook/releases/download/v0.2.0/keynook-0.2.0-macos.tar.gz"
-  sha256 "fb544c51426944c4df1ad099cf48b07d67676704f1095a9808ac8b9a0367b8ae"
+  url "https://github.com/tyldra/keynook/releases/download/v0.3.0/keynook-0.3.0-macos.tar.gz"
+  sha256 "67a86beba62566d2595bb6cd7dc92a9685b2398df9bbd679ef6f53ec4235eaba"
   license "Apache-2.0"
 
   livecheck do
