@@ -8,11 +8,13 @@ privately as described in [SECURITY.md](SECURITY.md).
 
 ## For maintainers
 
-Each chargectl release opens a pull request here that writes
-`Casks/chargectl.rb` and merges it once CI passes. To change the cask
-itself, edit `scripts/cask.sh` in
-[tyldra/chargectl](https://github.com/tyldra/chargectl); the next
-release brings the change here. Never edit the URL or SHA-256 by hand.
+Each release of a tool opens a pull request here that writes its file and
+merges it once CI passes: `Casks/chargectl.rb` from
+[tyldra/chargectl](https://github.com/tyldra/chargectl), and
+`Formula/keynook.rb` from [tyldra/keynook](https://github.com/tyldra/keynook).
+To change one, edit the script that prints it in the tool's repository,
+`scripts/cask.sh` or `scripts/formula.sh`; the next release brings the change
+here. Never edit the URL or SHA-256 by hand.
 
 Check a change locally before opening its pull request:
 
@@ -21,6 +23,7 @@ brew tap tyldra/tools "$PWD"
 brew style tyldra/tools
 brew audit --strict --online --tap tyldra/tools
 brew install --cask tyldra/tools/chargectl
+brew install tyldra/tools/keynook
 brew untap tyldra/tools
 ```
 
